@@ -1,8 +1,8 @@
-from db_creation import Dna, Rna, Triplet, Aminoacid, session, session2
+from qpa_final_project.data.db_creation import Dna, Rna, Triplet, Aminoacid, session, session2
 from qpa_final_project.Constants import AMINOACID_DICT
 
 dna_nucleotides = ('T', 'G', 'C', 'A')
-rna_nucleotides = ('U', 'G', 'C', 'A')
+rna_nucleotides = ('A', 'C', 'G', 'U')
 
 with session() as session:
     for d_nucl, r_nucl in zip(dna_nucleotides, rna_nucleotides):

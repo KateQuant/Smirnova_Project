@@ -1,4 +1,4 @@
-from db_creation import Dna, Triplet, session, session2
+from qpa_final_project.data.db_creation import Dna, Triplet, session, session2
 
 
 def get_rna_string(dna_string: str, session=session) -> str:

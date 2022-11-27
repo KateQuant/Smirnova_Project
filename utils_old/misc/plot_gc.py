@@ -2,10 +2,13 @@ import logging
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
+from pathlib import Path
 from Bio import Entrez, SeqIO
 
-from ticks_gc import ticks_mapper
+from qpa_final_project.utils_old.misc.ticks_gc import ticks_mapper
 from qpa_final_project.data.config import EMAIL
+from qpa_final_project.data.config import PATH_TO_DOCS_FROM_NCBI
+
 
 Entrez.email = EMAIL
 
@@ -19,7 +22,7 @@ def get_sequence(seq_name: str):  # NC_007366.1
     return str(record.seq)
 
 
-def gc_content_plot(string: str, step=100):
+def gc_content_plot(string: str, file_name, step=100):
     """Function that plots DNA sequence GC-content distribution"""
 
     gc_count = lambda dna_string: ((dna_string.count('G') + dna_string.count('C')) / len(dna_string)) * 100
@@ -46,10 +49,14 @@ def gc_content_plot(string: str, step=100):
         ax.set(xticks=x_ticks)
         ax.set(xticklabels=xtick_labels)
 
-    plt.savefig("gc_plot.png")
+    picture = f"{PATH_TO_DOCS_FROM_NCBI}/{file_name}.png"
+    plt.savefig(picture)
+    path_to_picture = Path().joinpath(picture)
+
+    return path_to_picture
 
 
 if __name__ == "__main__":
-    dna_seq = get_sequence('NR_036570.1')  # NM_021257.4  MN908947.3
+    dna_seq = get_sequence('MN908947.3')  # NM_021257.4  MN908947.3  NR_036570.1
     gc_content_plot(dna_seq)
 

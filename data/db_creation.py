@@ -1,8 +1,15 @@
 from sqlalchemy import Column, ForeignKey, Integer, String, create_engine
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 
-engine = create_engine("sqlite:///dna_rna.db")  # echo=True
-engine2 = create_engine("sqlite:///rna_protein.db")  # echo=True
+from qpa_final_project.data.config import PG_USER, PG_PASSWORD, IP, PORT
+
+# engine = create_engine("sqlite:///dna_rna.db")  # sqlight version
+url_1 = f"postgresql://{PG_USER}:{PG_PASSWORD}@{IP}:{PORT}/dna_rna"
+engine = create_engine(url_1)  # echo=True
+
+# engine2 = create_engine("sqlite:///rna_protein.db")  # sqlight version
+url_2 = f"postgresql://{PG_USER}:{PG_PASSWORD}@{IP}:{PORT}/rna_protein"
+engine2 = create_engine(url_2)  # echo=True
 
 Base = declarative_base()
 
