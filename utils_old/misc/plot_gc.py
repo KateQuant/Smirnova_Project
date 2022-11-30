@@ -1,4 +1,5 @@
-import logging
+# import logging
+import sys
 import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
@@ -57,6 +58,13 @@ def gc_content_plot(string: str, file_name, step=100):
 
 
 if __name__ == "__main__":
-    dna_seq = get_sequence('MN908947.3')  # NM_021257.4  MN908947.3  NR_036570.1
-    gc_content_plot(dna_seq)
+
+    seq_name = sys.argv[1]
+
+    try:
+        seq_str = get_sequence(seq_name)
+        picture_path = gc_content_plot(seq_str, seq_name)
+        print(f"Your plot picture saved in {picture_path}")
+    except KeyError:
+        print(f'{seq_name} is incorrect')
 

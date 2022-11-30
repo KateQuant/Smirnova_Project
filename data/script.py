@@ -1,7 +1,9 @@
 import re
+import sys
 from pathlib import Path
 from Bio import Entrez
 from Bio import SeqIO
+
 from qpa_final_project.data.config import PATH_TO_DOCS_FROM_NCBI
 from qpa_final_project.data.db_query import get_rna_string, get_protein_string
 from qpa_final_project.data.config import EMAIL
@@ -16,7 +18,6 @@ def convert_dna_to_rna(dna_string: str) -> str:
     dna_pattern = '^[ACTG]*$'
 
     if re.findall(dna_pattern, dna_to_convert):
-        # rna = dna_to_convert.replace('T', 'U')
         rna = get_rna_string(dna_to_convert)
         return rna
     return "Please input correct sequence that contain only 'ATGC' letters"
@@ -43,14 +44,16 @@ def convert_rna_to_protein(rna_string: str) -> str:
 
 def get_prefix(sequence_name: str) -> int:
     """Function that retrieve prefix from accession number"""
+    sequence_search_pattern = '^[A-Z]{1,2}[_\d]{5,8}[\d.]{1,2}$'
     prefix_search_pattern = '^[A-Z]+'
-    if re.search(prefix_search_pattern, sequence_name):
+
+    if re.search(sequence_search_pattern, sequence_name):
         prefix = len((re.search(prefix_search_pattern, sequence_name)).group(0))
         return prefix
     return 3
 
 
-def fasta_creator(accession):
+def fasta_creator(accession: str) -> Path:
     """Function that create fasta file with accession from nucleotide ncbi and return path to file"""
     with open(f'{PATH_TO_DOCS_FROM_NCBI}{accession}.fasta', 'w') as file:
         handle = Entrez.efetch(db="nucleotide", id=accession, rettype="fasta")
@@ -61,6 +64,20 @@ def fasta_creator(accession):
     path_to_download = Path().joinpath(f'{PATH_TO_DOCS_FROM_NCBI}{accession}.fasta')
     return path_to_download
 
+
+if __name__ == "__main__":
+
+    argument = sys.argv[1]
+    search_algo_str = sys.argv[2]
+
+    search_dict = {"DtR": convert_dna_to_rna, "RtP": convert_rna_to_protein}
+
+    try:
+        func = search_dict[search_algo_str]
+        result = func(argument)
+        print(result)
+    except KeyError:
+        print(f'{search_algo_str} is an unknown search algorithm')
 
 # print(convert_dna_to_rna('ATTGATG'))
 # print(convert_rna_to_protein('AUGGGCAA'))

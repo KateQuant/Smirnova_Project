@@ -11,7 +11,8 @@ async def bot_help(message: types.Message):
             "/help - get info", '\n'
             "/transcribe - transcribe your sequence from dna to rna", '\n'
             "/translate - translate your sequence from rna to protein", '\n'
-            "/accession - retrieve FASTA file by sequence accession number from NCBI “nucleotide“ database", '\n'
-            "/gc_plot - build the gc-contenet plot on basis of your FASTA file")
+            "/accession - retrieve FASTA file by sequence accession number from NCBI “nucleotide“ database and "
+            "build the gc-contenet plot on basis of it file"
+            )
 
     await message.answer("\n".join(text))
