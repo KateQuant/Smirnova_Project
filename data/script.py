@@ -34,11 +34,11 @@ def convert_rna_to_protein(rna_string: str) -> str:
         # aminoacids_list = [AMINOACID_DICT[rna_to_convert[i:i + 3]] for i in codon_step]
         # protein = ''.join(aminoacids_list)
 
-    if re.findall(rna_pattern, rna_to_convert) and len(rna_to_convert) % 3 == 0:
+    if re.findall(rna_pattern, rna_to_convert):
+        if len(rna_to_convert) % 3 != 0:
+            return "For translation to protein your sequence should be multiple by 3"
         protein = get_protein_string(rna_to_convert)
         return protein
-    elif len(rna_to_convert) % 3 != 0:
-        return "For translation to protein your sequence should be multiple by 3"
     return "Please input correct sequence of the form 'AUUCG'"
 
 
