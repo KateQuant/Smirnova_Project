@@ -2,6 +2,7 @@
 .idea
 
 utils/*.png
+Downloaded_docs_ncbi/*.png
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
